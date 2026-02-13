@@ -1,0 +1,25 @@
+# IDEs
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.venv/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Project Specific
+*.db
+*.sqlite3
+coverage.xml
+.coverage
+htmlcov/
