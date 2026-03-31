@@ -1,23 +1,25 @@
 import pytest
 from fastapi.errores import CampoFaltanteError, IdNoNumericoError
 from fastapi.main import registrar_libro
+from data.database import SessionLocal
+from data.models import Libro
+
 
 def test_registrar_libro_exitoso():
-    """
-    Test para ver que funcione la función resgitrar_libro.
-    """
+    # LIMPIEZA: Borramos el libro 10 por si ya existiese de antes
+    db = SessionLocal()
+    libro_viejo = db.query(Libro).filter_by(id=10).first()
+    if libro_viejo:
+        db.delete(libro_viejo)
+        db.commit()
+    db.close()
 
-    id_test = 10
-    titulo_test = "The Hobbit"
-    autor_test = "J.R.R. Tolkien"
-    genero_test = "Fantasía"
+    # EL TEST
+    resultado = registrar_libro(10, "The Hobbit", "J.R.R. Tolkien", "Fantasía")
 
-    resultado = registrar_libro(id_test, titulo_test, autor_test, genero_test, disponible=True)
-
-    assert resultado["id"] == id_test
-    assert resultado["titulo"] == titulo_test
-    assert resultado["autor"] == autor_test
-    assert resultado["disponible"] is True
+    assert resultado.id == 10
+    assert resultado.titulo == "The Hobbit"
+    assert resultado.autor == "J.R.R. Tolkien"
 
 def test_registrar_libro_incompleto():
     """

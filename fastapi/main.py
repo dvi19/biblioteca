@@ -1,21 +1,29 @@
 # Crear la función registrar libro
+# A la hora de configurar el sql para que se guarde en la base de datos, hemos tenido que hacer uso de la IA
+# porque no controlamos SQL
 
-from fastapi.errores import CampoFaltanteError, IdNoNumericoError
+from data.database import SessionLocal, engine, Base
 from data.models import Libro
-def registrar_libro(id, titulo, autor, genero, disponible: bool = True):
-    """
-    Crear un nuevo libro (HU-02)
-    """
-    if type(id) != int:
-        raise IdNoNumericoError("El ID de libro tiene que ser un entero")
-    if not id or not titulo or not autor or not genero:
-        raise CampoFaltanteError("Faltan casos obligatorios")
+from fastapi.errores import CampoFaltanteError, IdNoNumericoError #
 
-    nuevo_libro = Libro(id,titulo, autor, genero,disponible)
-    return {
-        "id": nuevo_libro.id,
-        "titulo": nuevo_libro.titulo,
-        "autor": nuevo_libro.autor,
-        "genero": nuevo_libro.genero,
-        "disponible": nuevo_libro.disponible
-    }
+def registrar_libro(id_libro, titulo, autor, genero, disponible=True):
+    # 1. Lanzar excepción si el id no es entero
+    if not isinstance(id_libro, int):
+        raise IdNoNumericoError("El ID debe ser un número entero.")
+
+    # 2. Lanzar la excepción si faltan campos obligatorios
+    if not titulo or str(titulo).strip() == "" or not autor or not genero:
+        raise CampoFaltanteError("Todos los campos obligatorios deben estar rellenos.")
+
+    db = SessionLocal()
+    try:
+        nuevo_libro = Libro(id=id_libro, titulo=titulo, autor=autor, genero=genero, disponible=disponible)
+        db.add(nuevo_libro)
+        db.commit()
+        db.refresh(nuevo_libro)
+        return nuevo_libro
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        db.close()
