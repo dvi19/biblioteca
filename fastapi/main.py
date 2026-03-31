@@ -27,3 +27,13 @@ def registrar_libro(id_libro, titulo, autor, genero, disponible=True):
         raise e
     finally:
         db.close()
+
+
+def consultar_catalogo():
+    db = SessionLocal() # abrimos sesión
+    try:
+        # Hemos necesita de IA para completar este paso
+        libros = db.query(Libro).all()
+        return libros
+    finally:
+        db.close() # cerramos la sesión
