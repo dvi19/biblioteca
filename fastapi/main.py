@@ -37,3 +37,21 @@ def consultar_catalogo():
         return libros
     finally:
         db.close() # cerramos la sesión
+
+
+def eliminar_libro(id_libro):
+    db = SessionLocal()
+    try:
+        # Buscamos el libro por su ID
+        libro = db.query(Libro).filter(Libro.id == id_libro).first()
+
+        if libro:
+            db.delete(libro)  # Marcamos para borrar
+            db.commit()  # Confirmamos el borrado 
+            return True
+        return False  # Si no existía el libro
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        db.close()

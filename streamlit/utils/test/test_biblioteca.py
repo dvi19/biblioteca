@@ -1,5 +1,5 @@
 import pytest
-from fastapi.errores import CampoFaltanteError, IdNoNumericoError
+from fastapi.errores import CampoFaltanteError, IdNoNumericoError, LibroNoEncontradoError
 from fastapi.main import consultar_catalogo, registrar_libro
 from data.database import SessionLocal
 from data.models import Libro
@@ -46,3 +46,22 @@ def test_consultar_catalogo_devuelve_lista():
     assert len(resultado) > 0
     # Verificamos que el libro 1984 está en la lista (ya sea de ahora o de antes)
     assert any(libro.titulo == "1984" for libro in resultado)
+
+
+def eliminar_libro(id_libro):
+    db = SessionLocal()
+    try:
+        # Buscamos el libro por su id
+        libro = db.query(Libro).filter(Libro.id == id_libro).first()
+        if not libro:
+            # Si no encuentra el libro lanza el error de que no existe el libro
+            raise LibroNoEncontradoError(f"No existe el libro con ID {id_libro}")
+
+        db.delete(libro) # Elimina el libro
+        db.commit() # Confirma que se ha eliminado el libro
+        return True
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        db.close()

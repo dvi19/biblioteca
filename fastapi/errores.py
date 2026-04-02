@@ -7,3 +7,7 @@ class CampoFaltanteError(Exception):
 class IdNoNumericoError(Exception):
     """Excepción para IDs que no son enteros."""
     pass
+
+class LibroNoEncontradoError(Exception):
+    """Excepción cuando el ID no existe en la base de datos."""
+    pass
