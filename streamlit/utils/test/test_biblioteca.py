@@ -48,20 +48,32 @@ def test_consultar_catalogo_devuelve_lista():
     assert any(libro.titulo == "1984" for libro in resultado)
 
 
-def eliminar_libro(id_libro):
-    db = SessionLocal()
-    try:
-        # Buscamos el libro por su id
-        libro = db.query(Libro).filter(Libro.id == id_libro).first()
-        if not libro:
-            # Si no encuentra el libro lanza el error de que no existe el libro
-            raise LibroNoEncontradoError(f"No existe el libro con ID {id_libro}")
+def test_eliminar_libro_exitoso():
+    """HU-03: Verificar que un libro se borra correctamente de la DB."""
+    from fastapi.main import registrar_libro, eliminar_libro, consultar_catalogo
 
-        db.delete(libro) # Elimina el libro
-        db.commit() # Confirma que se ha eliminado el libro
-        return True
-    except Exception as e:
-        db.rollback()
-        raise e
-    finally:
-        db.close()
+    #  Aseguramos que el libro existe
+    registrar_libro(50, "Libro a Borrar", "Autor X", "Género Y")
+
+    # Llamamos a la nueva función de borrar
+    fue_borrado = eliminar_libro(50)
+
+    # Comprobamos que devuelve True y que ya no está en el catálogo
+    assert fue_borrado is True
+    catalogo = consultar_catalogo()
+    assert not any(libro.id == 50 for libro in catalogo)
+
+
+def test_actualizar_disponibilidad_exitoso():
+    """HU-04: Verificar que se puede cambiar el estado de disponibilidad."""
+    from fastapi.main import registrar_libro, actualizar_disponibilidad
+
+    # Preparamos un libro
+    registrar_libro(30, "El Quijote", "Cervantes", "Clásico", disponible=True)
+
+    # Cambiamos su estado a False (Prestado)
+    resultado = actualizar_disponibilidad(30, False)
+
+    # Verificamos
+    assert resultado.disponible is False
+    assert resultado.id == 30

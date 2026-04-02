@@ -4,7 +4,7 @@
 
 from data.database import SessionLocal, engine, Base
 from data.models import Libro
-from fastapi.errores import CampoFaltanteError, IdNoNumericoError #
+from fastapi.errores import CampoFaltanteError, IdNoNumericoError, LibroNoEncontradoError #
 
 def registrar_libro(id_libro, titulo, autor, genero, disponible=True):
     # 1. Lanzar excepción si el id no es entero
@@ -47,9 +47,31 @@ def eliminar_libro(id_libro):
 
         if libro:
             db.delete(libro)  # Marcamos para borrar
-            db.commit()  # Confirmamos el borrado 
+            db.commit()  # Confirmamos el borrado
             return True
         return False  # Si no existía el libro
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        db.close()
+
+
+def actualizar_disponibilidad(id_libro, nuevo_estado: bool):
+    db = SessionLocal()
+    try:
+        # Buscamos el libro
+        libro = db.query(Libro).filter(Libro.id == id_libro).first()
+
+        if not libro:
+            raise LibroNoEncontradoError(f"No se encontró el libro {id_libro}")
+
+        # Modificamos el atributo
+        libro.disponible = nuevo_estado
+
+        db.commit()  # Guarda el cambio
+        db.refresh(libro)  # Actualiza el objeto
+        return libro
     except Exception as e:
         db.rollback()
         raise e
