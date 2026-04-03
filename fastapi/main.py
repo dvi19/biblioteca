@@ -107,3 +107,23 @@ def devolver_libro(id_libro):
         raise e
     finally:
         db.close()
+
+
+def buscar_libro(termino: str):
+    """HU-07: Filtra libros por título o autor."""
+    db = SessionLocal()
+    try:
+        # byscamos que contenga lo que hemos escrito
+        formato_busqueda = f"%{termino}%"
+
+        # Filtramos por lo que hemos puesto en formato_busqueda
+        libros = db.query(Libro).filter(
+            or_(
+                Libro.titulo.ilike(formato_busqueda),
+                Libro.autor.ilike(formato_busqueda)
+            )
+        ).all()
+
+        return libros
+    finally:
+        db.close()

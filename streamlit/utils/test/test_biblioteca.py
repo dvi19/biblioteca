@@ -127,3 +127,24 @@ def test_devolver_libro_ya_disponible_error():
     # Intentamos devolverlo pero como está disponible devuelve el error
     with pytest.raises(LibroYaDisponibleError):
         devolver_libro(70)
+
+
+def test_buscar_libro_por_coincidencia():
+    """HU-07: Verificar búsqueda por título/autor."""
+    from fastapi.main import registrar_libro, buscar_libro
+
+    # Limpieza previa
+    db = SessionLocal()
+    db.query(Libro).filter_by(id=100).delete()
+    db.commit()
+    db.close()
+
+    # Registramos a George Orwell
+    registrar_libro(100, "1984", "George Orwell", "Distopía")
+
+    # Buscamos por "orwell" para comprobar que busca con minúsculas
+    resultados = buscar_libro("orwell")
+
+    #vVerificamos que lo encuentra
+    assert len(resultados) > 0
+    assert any("Orwell" in libro.autor for libro in resultados)
