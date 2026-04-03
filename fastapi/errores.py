@@ -11,3 +11,7 @@ class IdNoNumericoError(Exception):
 class LibroNoEncontradoError(Exception):
     """Excepción cuando el ID no existe en la base de datos."""
     pass
+
+class LibroYaDisponibleError(Exception):
+    """Excepción cuando intentas devolver un libro que no estaba prestado."""
+    pass

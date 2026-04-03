@@ -2,9 +2,15 @@
 # A la hora de configurar el sql para que se guarde en la base de datos, hemos tenido que hacer uso de la IA
 # porque no controlamos SQL
 
+from sqlalchemy import or_
 from data.database import SessionLocal, engine, Base
 from data.models import Libro
-from fastapi.errores import CampoFaltanteError, IdNoNumericoError, LibroNoEncontradoError #
+from fastapi.errores import (
+    CampoFaltanteError,
+    IdNoNumericoError,
+    LibroNoEncontradoError,
+    LibroYaDisponibleError
+)
 
 def registrar_libro(id_libro, titulo, autor, genero, disponible=True):
     # 1. Lanzar excepción si el id no es entero
@@ -71,6 +77,30 @@ def actualizar_disponibilidad(id_libro, nuevo_estado: bool):
 
         db.commit()  # Guarda el cambio
         db.refresh(libro)  # Actualiza el objeto
+        return libro
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        db.close()
+
+
+def devolver_libro(id_libro):
+    db = SessionLocal()
+    try:
+        libro = db.query(Libro).filter(Libro.id == id_libro).first()
+
+        if not libro:
+            raise LibroNoEncontradoError(f"No existe el libro con ID {id_libro}")
+
+        # SI EL LIBRO YA ESTÁ EN LA BIBLIOTECA (disponible = True)
+        if libro.disponible:
+            raise LibroYaDisponibleError(f"El libro {id_libro} ya está disponible.")
+
+        # PROCESO DE DEVOLUCIÓN
+        libro.disponible = True
+        db.commit()
+        db.refresh(libro)
         return libro
     except Exception as e:
         db.rollback()

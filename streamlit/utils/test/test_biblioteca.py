@@ -68,12 +68,62 @@ def test_actualizar_disponibilidad_exitoso():
     """HU-04: Verificar que se puede cambiar el estado de disponibilidad."""
     from fastapi.main import registrar_libro, actualizar_disponibilidad
 
-    # Preparamos un libro
-    registrar_libro(30, "El Quijote", "Cervantes", "Clásico", disponible=True)
+    # limpieza para evitar error por id ya existente al ser primary key
+    db = SessionLocal()
+    libro_30 = db.query(Libro).filter_by(id=30).first()
+    if libro_30:
+        db.delete(libro_30)
+        db.commit()
+    db.close()
 
-    # Cambiamos su estado a False (Prestado)
+    # Registramos el libro de prueba
+    registrar_libro(id_libro=30, titulo="El Quijote", autor="Cervantes", genero="Clásico", disponible=True)
+
+    # Cambiamos su estado a False
     resultado = actualizar_disponibilidad(30, False)
 
     # Verificamos
     assert resultado.disponible is False
     assert resultado.id == 30
+
+
+def test_devolver_libro_exitoso():
+    """HU-05: Verificar que un libro prestado vuelve a estar disponible."""
+    from fastapi.main import registrar_libro, devolver_libro
+
+    # Borramos el rastro del test anterior (ID 60) para evitar que falle al ser el id primary key
+    db = SessionLocal()
+    libro_60 = db.query(Libro).filter_by(id=60).first()
+    if libro_60:
+        db.delete(libro_60)
+        db.commit()
+    db.close()
+
+    # Registramos un libro que YA está prestado (disponible=False)
+    registrar_libro(id_libro=60, titulo="Libro Prestado", autor="Autor F", genero="Ensayo", disponible=False)
+
+    # Ejecutamos la devolución
+    resultado = devolver_libro(60)
+
+    # Comprobamos que ahora disponible es True
+    assert resultado.disponible is True
+    assert resultado.id == 60
+
+
+def test_devolver_libro_ya_disponible_error():
+    """HU-05: Error si el libro ya está en la biblioteca."""
+    from fastapi.main import registrar_libro, devolver_libro
+    from fastapi.errores import LibroYaDisponibleError
+
+    # Registramos un libro que YA está disponible (id 70)
+    # Limpieza para evitar que el código de error
+    db = SessionLocal()
+    db.query(Libro).filter_by(id=70).delete()
+    db.commit()
+    db.close()
+
+    registrar_libro(70, "Libro en Estantería", "Autor G", "Poesía", disponible=True)
+
+    # Intentamos devolverlo pero como está disponible devuelve el error
+    with pytest.raises(LibroYaDisponibleError):
+        devolver_libro(70)
