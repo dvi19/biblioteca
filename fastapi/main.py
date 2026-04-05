@@ -4,12 +4,14 @@
 
 from sqlalchemy import or_
 from data.database import SessionLocal, engine, Base
-from data.models import Libro
+from data.models import Libro, Prestamo
+Base.metadata.create_all(bind=engine) # Esto lo hemos hecho con IA para que se creen todas las tablas que haya en models.py
 from fastapi.errores import (
     CampoFaltanteError,
     IdNoNumericoError,
     LibroNoEncontradoError,
-    LibroYaDisponibleError
+    LibroYaDisponibleError,
+    HistorialVacioError
 )
 
 def registrar_libro(id_libro, titulo, autor, genero, disponible=True):
@@ -125,5 +127,42 @@ def buscar_libro(termino: str):
         ).all()
 
         return libros
+    finally:
+        db.close()
+
+
+def registrar_prestamo(id_libro, usuario, fecha_texto):
+    """HU-06: Registra un préstamo."""
+    db = SessionLocal()
+    try:
+        nuevo_prestamo = Prestamo(
+            id_libro=id_libro,
+            usuario=usuario,
+            fecha_prestamo=fecha_texto,
+            activo=True
+        )
+        db.add(nuevo_prestamo)
+
+        # Marcamos el libro como NO disponible
+        libro = db.query(Libro).filter(Libro.id == id_libro).first()
+        if libro:
+            libro.disponible = False
+
+        db.commit()
+        return nuevo_prestamo
+    finally:
+        db.close()
+
+
+def consultar_historial(nombre_usuario):
+    db = SessionLocal()
+    try:
+        historial = db.query(Prestamo).filter(Prestamo.usuario == nombre_usuario).all()
+
+        # Si la lista está vacía, lanzamos el error
+        if not historial:
+            raise HistorialVacioError(f"El usuario {nombre_usuario} no tiene historial de préstamos.")
+
+        return historial
     finally:
         db.close()

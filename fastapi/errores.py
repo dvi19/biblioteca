@@ -15,3 +15,7 @@ class LibroNoEncontradoError(Exception):
 class LibroYaDisponibleError(Exception):
     """Excepción cuando intentas devolver un libro que no estaba prestado."""
     pass
+
+class HistorialVacioError(Exception):
+    """Excepción cuando un usuario existe pero no tiene préstamos registrados."""
+    pass

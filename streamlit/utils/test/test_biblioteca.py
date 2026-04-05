@@ -1,5 +1,5 @@
 import pytest
-from fastapi.errores import CampoFaltanteError, IdNoNumericoError, LibroNoEncontradoError
+from fastapi.errores import CampoFaltanteError, IdNoNumericoError, LibroNoEncontradoError, HistorialVacioError
 from fastapi.main import consultar_catalogo, registrar_libro
 from data.database import SessionLocal
 from data.models import Libro
@@ -148,3 +148,18 @@ def test_buscar_libro_por_coincidencia():
     #vVerificamos que lo encuentra
     assert len(resultados) > 0
     assert any("Orwell" in libro.autor for libro in resultados)
+
+
+def test_consultar_historial_prestamo():
+    """HU-06: Verificar historial ."""
+    from fastapi.main import registrar_prestamo, consultar_historial
+
+    # Registramos un préstamo
+    registrar_prestamo(id_libro=10, usuario="Guti", fecha_texto="2024-01-15")
+
+    # Devolvemos el historial del usuario Guti
+    historial = consultar_historial("Guti")
+
+    assert len(historial) > 0
+    assert historial[0].fecha_prestamo == "2024-01-15"
+    assert historial[0].usuario == "Guti"
