@@ -7,7 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Esto genera la URL final usando la ruta detectada
-SQLALCHEMY_DATABASE_URL = "sqlite:///" + os.path.join(basedir, 'biblioteca.db')
+SQLALCHEMY_DATABASE_URL = "sqlite:///" + os.path.join(basedir, '/data/biblioteca.db')
 
 # Creamos el motor de la base de datos
 engine = create_engine(

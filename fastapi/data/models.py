@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
-from data.database import Base
+from fastapi.data.database import Base
 
 class Libro(Base):
     __tablename__ = "libros"

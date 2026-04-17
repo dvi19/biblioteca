@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-
   fastapi:
     build: fastapi/
     ports:
@@ -10,7 +9,7 @@ services:
       - deploy_network
     container_name: fastapi
     volumes:
-      - mis_datos:/var/lib/docker/volumes/biblioteca/_data
+      - ./data:/fastapi/data
   streamlit:
     build: streamlit/
     depends_on:
@@ -20,11 +19,6 @@ services:
     networks:
       - deploy_network
     container_name: streamlit
-    volumes:
-      - mis_datos:/var/lib/docker/volumes/biblioteca/_data
 networks:
   deploy_network:
     driver: bridge
-
-volumes:
-  mis_datos:

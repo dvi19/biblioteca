@@ -1,8 +1,8 @@
 import pytest
-from fastapi.errores import CampoFaltanteError, IdNoNumericoError, LibroNoEncontradoError, HistorialVacioError
+from fastapi.errores import CampoFaltanteError, IdNoNumericoError
 from fastapi.main import consultar_catalogo, registrar_libro
-from data.database import SessionLocal
-from data.models import Libro
+from fastapi.data.database import SessionLocal
+from fastapi.data.models import Libro
 from sqlalchemy.exc import IntegrityError  # Importamos esto para manejar duplicados
 
 
