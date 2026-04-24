@@ -19,3 +19,7 @@ class LibroYaDisponibleError(Exception):
 class HistorialVacioError(Exception):
     """Excepción cuando un usuario existe pero no tiene préstamos registrados."""
     pass
+
+class FormatoFechaError(Exception):
+    """Excepción cuando la fecha no cumple el formato AAAA-MM-DD."""
+    pass

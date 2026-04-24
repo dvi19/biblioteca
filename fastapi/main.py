@@ -5,13 +5,15 @@
 from sqlalchemy import or_
 from data.database import SessionLocal, engine, Base
 from data.models import Libro, Prestamo
+from datetime import datetime
 Base.metadata.create_all(bind=engine) # Esto lo hemos hecho con IA para que se creen todas las tablas que haya en models.py
 from fastapi.errores import (
     CampoFaltanteError,
     IdNoNumericoError,
     LibroNoEncontradoError,
     LibroYaDisponibleError,
-    HistorialVacioError
+    HistorialVacioError,
+    FormatoFechaError
 )
 
 def registrar_libro(id_libro, titulo, autor, genero, disponible=True):
@@ -164,5 +166,32 @@ def consultar_historial(nombre_usuario):
             raise HistorialVacioError(f"El usuario {nombre_usuario} no tiene historial de préstamos.")
 
         return historial
+    finally:
+        db.close()
+
+
+def obtener_eventos_calendario(nombre_usuario):
+    """HU-08: Prepara los datos del historial para el calendario."""
+    db = SessionLocal()
+    try:
+        prestamos = db.query(Prestamo).filter(Prestamo.usuario == nombre_usuario).all()
+        eventos = []
+
+        for p in prestamos:
+            # Buscamos el título del libro para que aparezca en el calendario
+            libro = db.query(Libro).filter(Libro.id == p.id_libro).first()
+            titulo = libro.titulo if libro else f"Libro {p.id_libro}"
+
+            # Color: Rojo si está activo, Verde si ya se devolvió
+            color_evento = "#ff4b4b" if p.activo else "#28a745"
+
+            eventos.append({
+                "title": f" {titulo}",
+                "start": p.fecha_prestamo,
+                "end": p.fecha_devolucion if p.fecha_devolucion else p.fecha_prestamo,
+                "backgroundColor": color_evento,
+                "display": "block"
+            })
+        return eventos
     finally:
         db.close()

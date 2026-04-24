@@ -20,3 +20,6 @@ class Prestamo(Base):
     fecha_prestamo = Column(String)
     fecha_devolucion = Column(String, nullable=True)
     activo = Column(Boolean, default=True)
+
+
+    ## libro = Libro (**unlibro)
