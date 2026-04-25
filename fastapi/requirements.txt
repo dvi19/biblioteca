@@ -4,3 +4,6 @@ pandas
 sqlalchemy
 pytest
 
+pytest-cov==4.1.0
+coverage==7.4.0
+
