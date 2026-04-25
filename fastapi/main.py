@@ -4,11 +4,12 @@
 
 from sqlalchemy import or_
 from data.database import SessionLocal, engine, Base
-from data.models import Libro, Prestamo
+from data.models import Libro, Prestamo, Usuario
 from datetime import datetime
 Base.metadata.create_all(bind=engine) # Esto lo hemos hecho con IA para que se creen todas las tablas que haya en models.py
 from errores import (
     CampoFaltanteError,
+    EmailDuplicadoError,
     IdNoNumericoError,
     LibroNoEncontradoError,
     LibroYaDisponibleError,
@@ -211,5 +212,47 @@ def obtener_eventos_calendario(nombre_usuario):
                 "display": "block"
             })
         return eventos
+    finally:
+        db.close()
+
+
+def registrar_usuario(nombre, email):
+    """HU-03: Registra un nuevo usuario en la base de datos"""
+    from errores import CampoFaltanteError, EmailDuplicadoError
+
+    # Validar campos obligatorios
+    if not nombre or str(nombre).strip() == "" or not email or str(email).strip() == "":
+        raise CampoFaltanteError("El nombre y el email son obligatorios.")
+
+    db = SessionLocal()
+    try:
+        # Verificar si el email ya existe
+        usuario_existente = db.query(Usuario).filter(Usuario.email == email).first()
+        if usuario_existente:
+            raise EmailDuplicadoError(f"El email '{email}' ya está registrado.")
+
+        # Crear nuevo usuario
+        nuevo_usuario = Usuario(
+            nombre=nombre.strip(),
+            email=email.strip().lower()  # Guardamos el email en minúsculas
+        )
+        db.add(nuevo_usuario)
+        db.commit()
+        db.refresh(nuevo_usuario)
+        return nuevo_usuario
+
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        db.close()
+
+
+def consultar_usuarios():
+    """HU-03: Obtiene todos los usuarios registrados"""
+    db = SessionLocal()
+    try:
+        usuarios = db.query(Usuario).all()
+        return usuarios
     finally:
         db.close()

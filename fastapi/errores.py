@@ -4,6 +4,10 @@ class CampoFaltanteError(Exception):
     """
     pass
 
+class EmailDuplicadoError(Exception):
+    """Excepción cuando se intenta registrar un email que ya existe."""
+    pass
+
 class IdNoNumericoError(Exception):
     """Excepción para IDs que no son enteros."""
     pass
@@ -27,3 +31,4 @@ class FormatoFechaError(Exception):
 class LibroDuplicadoError(Exception):
     """Excepción cuando se intenta registrar un libro con un ID que ya existe."""
     pass
+

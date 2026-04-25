@@ -22,4 +22,9 @@ class Prestamo(Base):
     activo = Column(Boolean, default=True)
 
 
-    ## libro = Libro (**unlibro)
+class Usuario(Base):
+    __tablename__ = "usuarios"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    nombre = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=False, index=True)
