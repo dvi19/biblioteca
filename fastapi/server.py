@@ -267,3 +267,30 @@ async def devolver_libro_endpoint(libro_id: int):
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+    @app.get("/libros/buscar")
+    def buscar_libros(termino: str):
+        """HU-07: Busca libros por título o autor"""
+        from main import buscar_libro
+
+        try:
+            libros = buscar_libro(termino)
+
+            # Convertir a diccionarios
+            libros_dict = [
+                {
+                    "id": libro.id,
+                    "titulo": libro.titulo,
+                    "autor": libro.autor,
+                    "genero": libro.genero,
+                    "disponible": libro.disponible
+                }
+                for libro in libros
+            ]
+
+            return {
+                "resultados": len(libros_dict),
+                "libros": libros_dict
+            }
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
