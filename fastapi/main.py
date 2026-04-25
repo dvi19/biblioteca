@@ -7,7 +7,7 @@ from data.database import SessionLocal, engine, Base
 from data.models import Libro, Prestamo
 from datetime import datetime
 Base.metadata.create_all(bind=engine) # Esto lo hemos hecho con IA para que se creen todas las tablas que haya en models.py
-from fastapi.errores import (
+from errores import (
     CampoFaltanteError,
     IdNoNumericoError,
     LibroNoEncontradoError,
@@ -137,6 +137,12 @@ def registrar_prestamo(id_libro, usuario, fecha_texto):
     """HU-06: Registra un préstamo."""
     db = SessionLocal()
     try:
+        # Verificar que el libro existe
+        libro = db.query(Libro).filter(Libro.id == id_libro).first()
+        if not libro:
+            raise LibroNoEncontradoError(f"No existe el libro con ID {id_libro}")
+
+        # Crear el préstamo
         nuevo_prestamo = Prestamo(
             id_libro=id_libro,
             usuario=usuario,
@@ -145,13 +151,19 @@ def registrar_prestamo(id_libro, usuario, fecha_texto):
         )
         db.add(nuevo_prestamo)
 
-        # Marcamos el libro como NO disponible
-        libro = db.query(Libro).filter(Libro.id == id_libro).first()
-        if libro:
-            libro.disponible = False
+        # Marcar el libro como NO disponible
+        libro.disponible = False
 
+        # Confirmar ANTES de cerrar la sesión
         db.commit()
+        db.refresh(nuevo_prestamo)  # Ahora sí podemos hacer refresh
+
+        # Retornar el préstamo (ya está "detached" pero con datos completos)
         return nuevo_prestamo
+
+    except Exception as e:
+        db.rollback()
+        raise e
     finally:
         db.close()
 
