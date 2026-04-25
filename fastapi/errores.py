@@ -23,3 +23,7 @@ class HistorialVacioError(Exception):
 class FormatoFechaError(Exception):
     """Excepción cuando la fecha no cumple el formato AAAA-MM-DD."""
     pass
+
+class LibroDuplicadoError(Exception):
+    """Excepción cuando se intenta registrar un libro con un ID que ya existe."""
+    pass

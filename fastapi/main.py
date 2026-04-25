@@ -13,20 +13,26 @@ from errores import (
     LibroNoEncontradoError,
     LibroYaDisponibleError,
     HistorialVacioError,
-    FormatoFechaError
+    FormatoFechaError,
+    LibroDuplicadoError
 )
 
+
 def registrar_libro(id_libro, titulo, autor, genero, disponible=True):
-    # 1. Lanzar excepción si el id no es entero
+    """Registra un nuevo libro en la base de datos"""
     if not isinstance(id_libro, int):
         raise IdNoNumericoError("El ID debe ser un número entero.")
 
-    # 2. Lanzar la excepción si faltan campos obligatorios
     if not titulo or str(titulo).strip() == "" or not autor or not genero:
         raise CampoFaltanteError("Todos los campos obligatorios deben estar rellenos.")
 
     db = SessionLocal()
     try:
+        # Verificar si el ID ya existe
+        libro_existente = db.query(Libro).filter(Libro.id == id_libro).first()
+        if libro_existente:
+            raise LibroDuplicadoError(f"Ya existe un libro con el ID {id_libro}: '{libro_existente.titulo}'")
+
         nuevo_libro = Libro(id=id_libro, titulo=titulo, autor=autor, genero=genero, disponible=disponible)
         db.add(nuevo_libro)
         db.commit()

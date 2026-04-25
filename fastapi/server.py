@@ -177,3 +177,93 @@ async def create_loan(prestamo: PrestamoCreate):
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/prestamos/historial/{usuario}")
+def get_historial_prestamos(usuario: str):
+    """HU-06: Obtiene el historial completo de préstamos de un usuario"""
+    from main import consultar_historial
+
+    try:
+        prestamos = consultar_historial(usuario)
+
+        prestamos_dict = [
+            {
+                "ID": p.id,
+                "Libro ID": p.id_libro,
+                "Usuario": p.usuario,
+                "Fecha Préstamo": p.fecha_prestamo,
+                "Fecha Devolución": p.fecha_devolucion if p.fecha_devolucion else "Activo",
+                "Estado": "🔴 Activo" if p.activo else "✅ Devuelto"
+            }
+            for p in prestamos
+        ]
+
+        return {"prestamos": prestamos_dict}
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+@app.post("/libros/")
+async def crear_libro(libro: LibroSchema):
+    """HU-02: Registra un nuevo libro en el catálogo"""
+    from main import registrar_libro
+
+    try:
+        nuevo_libro = registrar_libro(
+            id_libro=libro.id,
+            titulo=libro.titulo,
+            autor=libro.autor,
+            genero=libro.genero,
+            disponible=libro.disponible
+        )
+        return {
+            "message": "Libro registrado correctamente",
+            "libro": {
+                "id": nuevo_libro.id,
+                "titulo": nuevo_libro.titulo,
+                "autor": nuevo_libro.autor,
+                "genero": nuevo_libro.genero,
+                "disponible": nuevo_libro.disponible
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.put("/libros/{libro_id}/devolver")
+async def devolver_libro_endpoint(libro_id: int):
+    """HU-05: Marca un libro como devuelto (disponible)"""
+    from main import devolver_libro
+
+    try:
+        libro = devolver_libro(libro_id)
+        return {
+            "message": f"Libro '{libro.titulo}' devuelto correctamente",
+            "libro": {
+                "id": libro.id,
+                "titulo": libro.titulo,
+                "disponible": libro.disponible
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.put("/libros/{libro_id}/devolver")
+async def devolver_libro_endpoint(libro_id: int):
+    """HU-05: Marca un libro como devuelto (disponible)"""
+    from main import devolver_libro
+
+    try:
+        libro = devolver_libro(libro_id)
+        return {
+            "message": f"Libro '{libro.titulo}' devuelto correctamente",
+            "libro": {
+                "id": libro.id,
+                "titulo": libro.titulo,
+                "disponible": libro.disponible
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
