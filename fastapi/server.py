@@ -1,14 +1,17 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import List
+
+# Servidor principal de FastAPI - Gestor de Bibliotecas
+# Arquitectura con APIRouter para separar responsabilidades (SOLID)
+
+from fastapi import FastAPI
 import pandas as pd
 import os
-
-# Importaciones de tu base de datos
 from data.database import SessionLocal, engine, Base
-from data.models import Libro as LibroDB, Prestamo as PrestamoDB
+from data.models import Libro as LibroDB
 
-# AUTO-SEED: Crear tablas y poblar la BD con datos del CSV al inicio
+# Importar los routers
+from routers import libros, usuarios, prestamos
+
+# Crear tablas y poblar la BD con datos del CSV al inicio
 Base.metadata.create_all(bind=engine)
 
 
@@ -45,278 +48,27 @@ def seed_database_if_empty():
 seed_database_if_empty()
 
 
-# Configuración de Pydantic
-class BaseModelConfig(BaseModel):
-    class Config:
-        from_attributes = True
-        arbitrary_types_allowed = True
-
-
-# --- ESQUEMAS PARA EL CATÁLOGO ---
-class LibroSchema(BaseModel):
-    id: int
-    titulo: str
-    autor: str
-    genero: str
-    disponible: bool
-
-
-class ListadoLibros(BaseModel):
-    libros: List[LibroSchema] = []
-
-
-# --- ESQUEMAS PARA EL CALENDARIO ---
-class EventoCalendario(BaseModel):
-    title: str
-    start: str
-    end: str
-    backgroundColor: str
-    borderColor: str
-    allDay: bool = True
-
-
-class ListadoCalendario(BaseModel):
-    eventos: List[EventoCalendario] = []
-
-
-# --- ESQUEMA PARA CREAR PRÉSTAMO ---
-class PrestamoCreate(BaseModel):
-    id_libro: int
-    usuario: str
-    fecha_prestamo: str
-
-
-# --- INICIALIZACIÓN DE LA APP ---
+# Iniciación de al app
 app = FastAPI(
     title="Gestor de Bibliotecas API",
-    description="Servidor de datos para la gestión de bibliotecas.",
-    version="1.0.0",
+    description="Servidor de datos para la gestión de bibliotecas con arquitectura modular (APIRouter)",
+    version="2.0.0",
 )
 
 
-# --- RUTAS ---
-
-@app.get("/libros/", response_model=ListadoLibros)
-def retrieve_data():
-    """Lee el catálogo desde la base de datos (ya no desde CSV)"""
-    db = SessionLocal()
-    try:
-        libros = db.query(LibroDB).all()
-
-        # Convertir a diccionarios
-        libros_dict = [
-            {
-                "id": libro.id,
-                "titulo": libro.titulo,
-                "autor": libro.autor,
-                "genero": libro.genero,
-                "disponible": libro.disponible
-            }
-            for libro in libros
-        ]
-
-        return ListadoLibros(libros=libros_dict)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    finally:
-        db.close()
+# routers
+app.include_router(libros.router)
+app.include_router(usuarios.router)
+app.include_router(prestamos.router)
 
 
-@app.get("/libros/buscar")
-def buscar_libros(termino: str):
-    """HU-07: Busca libros por título o autor"""
-    from main import buscar_libro
 
-    try:
-        libros = buscar_libro(termino)
-
-        # Convertir a diccionarios
-        libros_dict = [
-            {
-                "id": libro.id,
-                "titulo": libro.titulo,
-                "autor": libro.autor,
-                "genero": libro.genero,
-                "disponible": libro.disponible
-            }
-            for libro in libros
-        ]
-
-        return {
-            "resultados": len(libros_dict),
-            "libros": libros_dict
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.post("/libros/")
-async def crear_libro(libro: LibroSchema):
-    """HU-02: Registra un nuevo libro en el catálogo"""
-    from main import registrar_libro
-
-    try:
-        nuevo_libro = registrar_libro(
-            id_libro=libro.id,
-            titulo=libro.titulo,
-            autor=libro.autor,
-            genero=libro.genero,
-            disponible=libro.disponible
-        )
-        return {
-            "message": "Libro registrado correctamente",
-            "libro": {
-                "id": nuevo_libro.id,
-                "titulo": nuevo_libro.titulo,
-                "autor": nuevo_libro.autor,
-                "genero": nuevo_libro.genero,
-                "disponible": nuevo_libro.disponible
-            }
-        }
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@app.put("/libros/{libro_id}/devolver")
-async def devolver_libro_endpoint(libro_id: int):
-    """HU-05: Marca un libro como devuelto (disponible)"""
-    from main import devolver_libro
-
-    try:
-        libro = devolver_libro(libro_id)
-        return {
-            "message": f"Libro '{libro.titulo}' devuelto correctamente",
-            "libro": {
-                "id": libro.id,
-                "titulo": libro.titulo,
-                "disponible": libro.disponible
-            }
-        }
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@app.get("/calendario/{usuario}", response_model=ListadoCalendario)
-def get_calendario_usuario(usuario: str):
-    """Obtiene los préstamos de la DB y los formatea para el calendario de Streamlit"""
-    db = SessionLocal()
-    try:
-        # Buscamos préstamos en la DB para ese usuario
-        prestamos = db.query(PrestamoDB).filter(PrestamoDB.usuario == usuario).all()
-
-        eventos_formateados = []
-        for p in prestamos:
-            # Buscamos el título del libro usando el ID del préstamo
-            libro = db.query(LibroDB).filter(LibroDB.id == p.id_libro).first()
-            titulo_mostrar = libro.titulo if libro else f"Libro ID: {p.id_libro}"
-
-            # Lógica de colores HU-08: Rojo (Prestado/Activo) | Verde (Devuelto)
-            color = "#ff4b4b" if p.activo else "#28a745"
-
-            eventos_formateados.append(
-                EventoCalendario(
-                    title=f"📚 {titulo_mostrar}",
-                    start=str(p.fecha_prestamo),
-                    end=str(p.fecha_devolucion) if p.fecha_devolucion else str(p.fecha_prestamo),
-                    backgroundColor=color,
-                    borderColor=color,
-                    allDay=True
-                )
-            )
-
-        return ListadoCalendario(eventos=eventos_formateados)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    finally:
-        db.close()
-
-
-@app.post("/prestamos/")
-async def create_loan(prestamo: PrestamoCreate):
-    """Registra un préstamo en la base de datos"""
-    from main import registrar_prestamo
-
-    try:
-        nuevo_prestamo = registrar_prestamo(
-            id_libro=prestamo.id_libro,
-            usuario=prestamo.usuario,
-            fecha_texto=prestamo.fecha_prestamo
-        )
-        return {
-            "message": "Préstamo registrado correctamente",
-            "prestamo_id": nuevo_prestamo.id,
-            "libro_id": nuevo_prestamo.id_libro,
-            "usuario": nuevo_prestamo.usuario,
-            "fecha": nuevo_prestamo.fecha_prestamo
-        }
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@app.get("/prestamos/historial/{usuario}")
-def get_historial_prestamos(usuario: str):
-    """HU-06: Obtiene el historial completo de préstamos de un usuario"""
-    from main import consultar_historial
-
-    try:
-        prestamos = consultar_historial(usuario)
-
-        prestamos_dict = [
-            {
-                "ID Préstamo": p.id,
-                "ID Libro": p.id_libro,
-                "Usuario": p.usuario,
-                "Fecha Préstamo": p.fecha_prestamo,
-                "Fecha Devolución": p.fecha_devolucion if p.fecha_devolucion else "-",
-                "Estado": "🔴 Activo" if p.activo else "✅ Devuelto"
-            }
-            for p in prestamos
-        ]
-
-        return {"prestamos": prestamos_dict}
-    except Exception as e:
-        raise HTTPException(status_code=404, detail=str(e))
-
-
-@app.post("/usuarios/")
-async def crear_usuario(nombre: str, email: str):
-    """HU-03: Registra un nuevo usuario"""
-    from main import registrar_usuario
-
-    try:
-        nuevo_usuario = registrar_usuario(nombre=nombre, email=email)
-        return {
-            "message": "Usuario registrado correctamente",
-            "usuario": {
-                "id": nuevo_usuario.id,
-                "nombre": nuevo_usuario.nombre,
-                "email": nuevo_usuario.email
-            }
-        }
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@app.get("/usuarios/")
-def listar_usuarios():
-    """HU-03: Obtiene todos los usuarios registrados"""
-    from main import consultar_usuarios
-
-    try:
-        usuarios = consultar_usuarios()
-
-        usuarios_dict = [
-            {
-                "id": u.id,
-                "nombre": u.nombre,
-                "email": u.email
-            }
-            for u in usuarios
-        ]
-
-        return {
-            "total": len(usuarios_dict),
-            "usuarios": usuarios_dict
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+@app.get("/")
+def health_check():
+    """Endpoint raíz para verificar que la API está funcionando"""
+    return {
+        "status": "online",
+        "message": "API Gestor de Bibliotecas funcionando correctamente",
+        "version": "2.0.0",
+        "routers": ["libros", "usuarios", "prestamos"]
+    }
