@@ -18,13 +18,21 @@ from errores import (
     LibroDuplicadoError
 )
 
+from config.logging_config import logger
+
+Base.metadata.create_all(bind=engine)
+
 
 def registrar_libro(id_libro, titulo, autor, genero, disponible=True):
     """Registra un nuevo libro en la base de datos"""
+    logger.info(f"Intentando registrar libro ID {id_libro}: '{titulo}'")
+
     if not isinstance(id_libro, int):
+        logger.error(f"ID no numérico recibido: {id_libro}")
         raise IdNoNumericoError("El ID debe ser un número entero.")
 
     if not titulo or str(titulo).strip() == "" or not autor or not genero:
+        logger.warning(f"Intento de registro con campos vacíos - ID: {id_libro}")
         raise CampoFaltanteError("Todos los campos obligatorios deben estar rellenos.")
 
     db = SessionLocal()
@@ -32,15 +40,20 @@ def registrar_libro(id_libro, titulo, autor, genero, disponible=True):
         # Verificar si el ID ya existe
         libro_existente = db.query(Libro).filter(Libro.id == id_libro).first()
         if libro_existente:
+            logger.warning(
+                f"Intento de registrar libro duplicado - ID: {id_libro}, existente: '{libro_existente.titulo}'")
             raise LibroDuplicadoError(f"Ya existe un libro con el ID {id_libro}: '{libro_existente.titulo}'")
 
         nuevo_libro = Libro(id=id_libro, titulo=titulo, autor=autor, genero=genero, disponible=disponible)
         db.add(nuevo_libro)
         db.commit()
         db.refresh(nuevo_libro)
+
+        logger.info(f"✅ Libro registrado exitosamente - ID: {id_libro}, Título: '{titulo}'")
         return nuevo_libro
     except Exception as e:
         db.rollback()
+        logger.error(f"Error al registrar libro ID {id_libro}: {str(e)}")
         raise e
     finally:
         db.close()
@@ -97,24 +110,31 @@ def actualizar_disponibilidad(id_libro, nuevo_estado: bool):
 
 
 def devolver_libro(id_libro):
+    logger.info(f"Intentando devolver libro ID: {id_libro}")
+
     db = SessionLocal()
     try:
         libro = db.query(Libro).filter(Libro.id == id_libro).first()
 
         if not libro:
+            logger.error(f"Intento de devolución de libro inexistente - ID: {id_libro}")
             raise LibroNoEncontradoError(f"No existe el libro con ID {id_libro}")
 
-        # SI EL LIBRO YA ESTÁ EN LA BIBLIOTECA (disponible = True)
+        # SI EL LIBRO YA ESTÁ EN LA BIBLIOTECA
         if libro.disponible:
+            logger.warning(f"Intento de devolver libro ya disponible - ID: {id_libro}")
             raise LibroYaDisponibleError(f"El libro {id_libro} ya está disponible.")
 
         # PROCESO DE DEVOLUCIÓN
         libro.disponible = True
         db.commit()
         db.refresh(libro)
+
+        logger.info(f"✅ Libro devuelto exitosamente - ID: {id_libro}, Título: '{libro.titulo}'")
         return libro
     except Exception as e:
         db.rollback()
+        logger.error(f"Error al devolver libro ID {id_libro}: {str(e)}")
         raise e
     finally:
         db.close()
@@ -142,14 +162,17 @@ def buscar_libro(termino: str):
 
 def registrar_prestamo(id_libro, usuario, fecha_texto):
     """HU-06: Registra un préstamo."""
+    logger.info(f"Intentando registrar préstamo - Libro ID: {id_libro}, Usuario: '{usuario}'")
+
     db = SessionLocal()
     try:
         # Verificar que el libro existe
         libro = db.query(Libro).filter(Libro.id == id_libro).first()
         if not libro:
+            logger.error(f"Intento de préstamo de libro inexistente - ID: {id_libro}")
             raise LibroNoEncontradoError(f"No existe el libro con ID {id_libro}")
 
-        # Crear el préstamo
+        # Crear el prestamo
         nuevo_prestamo = Prestamo(
             id_libro=id_libro,
             usuario=usuario,
@@ -158,18 +181,19 @@ def registrar_prestamo(id_libro, usuario, fecha_texto):
         )
         db.add(nuevo_prestamo)
 
-        # Marcar el libro como NO disponible
+        # Marca el libro como NO disponible
         libro.disponible = False
 
-        # Confirmar ANTES de cerrar la sesión
+        # Confirmar ANTES de cerar la sesión
         db.commit()
-        db.refresh(nuevo_prestamo)  # Ahora sí podemos hacer refresh
+        db.refresh(nuevo_prestamo)
 
-        # Retornar el préstamo (ya está "detached" pero con datos completos)
+        logger.info(f"✅ Préstamo registrado - Libro: '{libro.titulo}', Usuario: '{usuario}'")
         return nuevo_prestamo
 
     except Exception as e:
         db.rollback()
+        logger.error(f"Error al registrar préstamo - Libro ID: {id_libro}, Usuario: '{usuario}' - {str(e)}")
         raise e
     finally:
         db.close()
@@ -218,10 +242,11 @@ def obtener_eventos_calendario(nombre_usuario):
 
 def registrar_usuario(nombre, email):
     """HU-03: Registra un nuevo usuario en la base de datos"""
-    from errores import CampoFaltanteError, EmailDuplicadoError
+    logger.info(f"Intentando registrar usuario: '{nombre}' ({email})")
 
     # Validar campos obligatorios
     if not nombre or str(nombre).strip() == "" or not email or str(email).strip() == "":
+        logger.warning(f"Intento de registro de usuario con campos vacíos")
         raise CampoFaltanteError("El nombre y el email son obligatorios.")
 
     db = SessionLocal()
@@ -229,20 +254,24 @@ def registrar_usuario(nombre, email):
         # Verificar si el email ya existe
         usuario_existente = db.query(Usuario).filter(Usuario.email == email).first()
         if usuario_existente:
+            logger.warning(f"Intento de registro con email duplicado: {email}")
             raise EmailDuplicadoError(f"El email '{email}' ya está registrado.")
 
         # Crear nuevo usuario
         nuevo_usuario = Usuario(
             nombre=nombre.strip(),
-            email=email.strip().lower()  # Guardamos el email en minúsculas
+            email=email.strip().lower()
         )
         db.add(nuevo_usuario)
         db.commit()
         db.refresh(nuevo_usuario)
+
+        logger.info(f"✅ Usuario registrado exitosamente: '{nombre}' ({email})")
         return nuevo_usuario
 
     except Exception as e:
         db.rollback()
+        logger.error(f"Error al registrar usuario '{nombre}': {str(e)}")
         raise e
     finally:
         db.close()
