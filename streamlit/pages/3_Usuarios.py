@@ -9,6 +9,17 @@ st.write("Registra y consulta usuarios de la biblioteca.")
 
 API_URL = "http://fastapi:8000"
 
+
+# FUNCIÓN CON CACHÉ
+@st.cache_data(ttl=60)  # Cache por 1 minuto
+def obtener_usuarios():
+    """Obtiene la lista de usuarios con caché"""
+    response = requests.get(f"{API_URL}/usuarios/")
+    if response.status_code == 200:
+        return response.json()
+    return {"total": 0, "usuarios": []}
+
+
 tab1, tab2 = st.tabs(["➕ Registrar Usuario", "📋 Listado de Usuarios"])
 
 # TAB 1: Registrar Usuario
@@ -43,6 +54,9 @@ with tab1:
                         st.success(f"✅ {data['message']}")
                         st.json(data['usuario'])
                         st.balloons()
+
+                        # Limpiar caché para que aparezca en el listado
+                        st.cache_data.clear()
                     else:
                         error_detail = response.json().get('detail', 'Error desconocido')
                         st.error(f"❌ {error_detail}")
@@ -54,37 +68,39 @@ with tab1:
 with tab2:
     st.subheader("📋 Usuarios Registrados")
 
-    if st.button("🔄 Actualizar Listado", use_container_width=True):
-        try:
-            response = requests.get(f"{API_URL}/usuarios/")
+    col1, col2 = st.columns([1, 4])
+    with col1:
+        if st.button("🔄 Actualizar", use_container_width=True):
+            st.cache_data.clear()
+            st.rerun()
 
-            if response.status_code == 200:
-                data = response.json()
-                usuarios = data.get("usuarios", [])
-                total = data.get("total", 0)
+    try:
+        data = obtener_usuarios()
+        usuarios = data.get("usuarios", [])
+        total = data.get("total", 0)
 
-                if usuarios:
-                    st.info(f"📊 Total de usuarios registrados: **{total}**")
+        if usuarios:
+            st.info(f"📊 Total de usuarios registrados: **{total}**")
 
-                    df = pd.DataFrame(usuarios)
-                    df = df.rename(columns={
-                        'id': 'ID',
-                        'nombre': 'Nombre',
-                        'email': 'Email'
-                    })
+            df = pd.DataFrame(usuarios)
+            df = df.rename(columns={
+                'id': 'ID',
+                'nombre': 'Nombre',
+                'email': 'Email'
+            })
 
-                    st.dataframe(
-                        df,
-                        use_container_width=True,
-                        hide_index=True
-                    )
-                else:
-                    st.warning("ℹ️ No hay usuarios registrados todavía.")
-            else:
-                st.error(f"❌ Error al obtener usuarios: {response.status_code}")
+            st.dataframe(
+                df,
+                use_container_width=True,
+                hide_index=True
+            )
 
-        except Exception as e:
-            st.error(f"❌ Error de conexión: {e}")
+            st.caption("💾 Listado cacheado - actualización cada 1 minuto")
+        else:
+            st.warning("ℹ️ No hay usuarios registrados todavía.")
+    except Exception as e:
+        st.error(f"❌ Error al obtener usuarios: {e}")
 
 st.markdown("---")
-st.info("💡 **Tip**: Los emails se guardan en minúsculas automáticamente para evitar duplicados.")
+st.info(
+    "💡 **Tip**: Los emails se guardan en minúsculas automáticamente para evitar duplicados. Los datos se cachean para mejorar el rendimiento.")
