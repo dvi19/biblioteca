@@ -19,10 +19,14 @@ from errores import (
 )
 
 from config.logging_config import logger
+from utils.decorators import log_execution_time, validar_campos, retry
 
 Base.metadata.create_all(bind=engine)
 
 
+
+@log_execution_time
+@validar_campos('titulo', 'autor', 'genero')
 def registrar_libro(id_libro, titulo, autor, genero, disponible=True):
     """Registra un nuevo libro en la base de datos"""
     logger.info(f"Intentando registrar libro ID {id_libro}: '{titulo}'")
@@ -59,6 +63,7 @@ def registrar_libro(id_libro, titulo, autor, genero, disponible=True):
         db.close()
 
 
+@log_execution_time
 def consultar_catalogo():
     db = SessionLocal() # abrimos sesión
     try:
@@ -109,6 +114,7 @@ def actualizar_disponibilidad(id_libro, nuevo_estado: bool):
         db.close()
 
 
+@log_execution_time
 def devolver_libro(id_libro):
     logger.info(f"Intentando devolver libro ID: {id_libro}")
 
@@ -160,6 +166,9 @@ def buscar_libro(termino: str):
         db.close()
 
 
+
+@log_execution_time
+@retry(max_intentos=3, delay=1.0)
 def registrar_prestamo(id_libro, usuario, fecha_texto):
     """HU-06: Registra un préstamo."""
     logger.info(f"Intentando registrar préstamo - Libro ID: {id_libro}, Usuario: '{usuario}'")
@@ -240,6 +249,8 @@ def obtener_eventos_calendario(nombre_usuario):
         db.close()
 
 
+@log_execution_time
+@validar_campos('nombre', 'email')
 def registrar_usuario(nombre, email):
     """HU-03: Registra un nuevo usuario en la base de datos"""
     logger.info(f"Intentando registrar usuario: '{nombre}' ({email})")
