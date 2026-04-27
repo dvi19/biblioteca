@@ -19,7 +19,7 @@ from errores import (
 )
 
 from config.logging_config import logger
-from utils.decorators import log_execution_time, validar_campos, retry
+from utils.decoradores import log_execution_time, validar_campos, retry
 from utils.context_managers import db_session, db_transaction, measure_time
 
 Base.metadata.create_all(bind=engine)
