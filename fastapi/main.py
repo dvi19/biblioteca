@@ -20,6 +20,7 @@ from errores import (
 
 from config.logging_config import logger
 from utils.decorators import log_execution_time, validar_campos, retry
+from utils.context_managers import db_session, db_transaction, measure_time
 
 Base.metadata.create_all(bind=engine)
 
@@ -296,3 +297,87 @@ def consultar_usuarios():
         return usuarios
     finally:
         db.close()
+
+
+def consultar_catalogo_mejorado():
+    """
+    HU-01 mejorada: Consulta el catálogo usando context manager.
+    """
+    with measure_time("Consulta de catálogo completo"):
+        with db_session() as db:
+            libros = db.query(Libro).all()
+            logger.info(f"📚 Se encontraron {len(libros)} libros en el catálogo")
+            return libros
+
+
+def registrar_libro_con_transaccion(id_libro, titulo, autor, genero, disponible=True):
+    """
+    Versión mejorada de registrar_libro usando context manager de transacciones.
+    Si algo falla, hace rollback automático.
+    """
+    logger.info(f"Intentando registrar libro ID {id_libro}: '{titulo}' (con transacción)")
+
+    if not isinstance(id_libro, int):
+        logger.error(f"ID no numérico recibido: {id_libro}")
+        raise IdNoNumericoError("El ID debe ser un número entero.")
+
+    if not titulo or str(titulo).strip() == "" or not autor or not genero:
+        logger.warning(f"Intento de registro con campos vacíos - ID: {id_libro}")
+        raise CampoFaltanteError("Todos los campos obligatorios deben estar rellenos.")
+
+    with db_transaction() as db:
+        # Verificar si el ID ya existe
+        libro_existente = db.query(Libro).filter(Libro.id == id_libro).first()
+        if libro_existente:
+            logger.warning(f"Intento de registrar libro duplicado - ID: {id_libro}")
+            raise LibroDuplicadoError(f"Ya existe un libro con el ID {id_libro}")
+
+        # Crear nuevo libro
+        nuevo_libro = Libro(
+            id=id_libro,
+            titulo=titulo,
+            autor=autor,
+            genero=genero,
+            disponible=disponible
+        )
+        db.add(nuevo_libro)
+        db.flush()
+        db.refresh(nuevo_libro)
+
+        # Extraer datos como diccionario antes de cerrar sesión
+        resultado = {
+            'id': nuevo_libro.id,
+            'titulo': nuevo_libro.titulo,
+            'autor': nuevo_libro.autor,
+            'genero': nuevo_libro.genero,
+            'disponible': nuevo_libro.disponible
+        }
+
+        logger.info(f"✅ Libro registrado con transacción - ID: {id_libro}")
+
+    # Devolver diccionario en lugar de objeto SQLAlchemy
+    return resultado
+
+
+def obtener_estadisticas_biblioteca():
+    """
+    Función que demuestra el uso de context managers para estadísticas.
+    """
+    with measure_time("Cálculo de estadísticas"):
+        with db_session() as db:
+            total_libros = db.query(Libro).count()
+            libros_disponibles = db.query(Libro).filter(Libro.disponible == True).count()
+            libros_prestados = total_libros - libros_disponibles
+            total_prestamos = db.query(Prestamo).count()
+            prestamos_activos = db.query(Prestamo).filter(Prestamo.activo == True).count()
+
+            stats = {
+                "total_libros": total_libros,
+                "libros_disponibles": libros_disponibles,
+                "libros_prestados": libros_prestados,
+                "total_prestamos": total_prestamos,
+                "prestamos_activos": prestamos_activos
+            }
+
+            logger.info(f"📊 Estadísticas calculadas: {stats}")
+            return stats
