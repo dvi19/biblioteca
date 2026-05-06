@@ -53,11 +53,28 @@ pytest --cov=. --cov-report=term-missing
 - `streamlit/` — UI multipágina que consume la API
 
 ## Cumplimiento de SOLID
-- **SRP**: cada router gestiona una única entidad; `main.py` separa lógica de negocio de los endpoints.
-- **OCP**: nuevas funcionalidades se añaden creando routers/decoradores sin modificar los existentes.
-- **LSP**: los modelos heredan de `Base` de SQLAlchemy y son sustituibles.
-- **ISP**: cada router expone solo los endpoints que le corresponden.
-- **DIP**: la UI depende de la API (HTTP), no de la BD directamente.
+
+### SRP — Single Responsibility Principle
+Cada módulo tiene una única responsabilidad:
+- `data/models.py`: define los modelos de datos (Libro, Usuario, Prestamo).
+- `data/database.py`: gestiona exclusivamente la conexión y sesiones de SQLAlchemy.
+- `errores.py`: agrupa todas las excepciones personalizadas del dominio.
+- `routers/libros.py`, `routers/usuarios.py`, `routers/prestamos.py`: cada router gestiona endpoints de una sola entidad.
+- `config/logging_config.py`: aísla la configuración del sistema de logs.
+
+### OCP — Open/Closed Principle
+La arquitectura permite añadir funcionalidad **sin modificar** el código existente:
+- Para añadir una nueva entidad (ej. "Categorías"), basta con crear un nuevo router e incluirlo en `server.py` con `app.include_router(...)`. No se modifica ningún router previo.
+- Los decoradores (`@log_execution_time`, `@validar_campos`, `@retry`) extienden el comportamiento de las funciones sin alterarlas.
+
+### LSP — Liskov Substitution Principle
+Todos los modelos heredan de `Base` (`declarative_base()` de SQLAlchemy) y son sustituibles entre sí cuando la operación es genérica (`db.query(Modelo).all()` funciona igual para `Libro`, `Usuario` o `Prestamo`).
+
+### ISP — Interface Segregation Principle
+La API expone interfaces específicas por entidad: el cliente de libros solo conoce `/libros/...`, el de préstamos solo `/prestamos/...`. Ningún consumidor depende de endpoints que no usa.
+
+### DIP — Dependency Inversion Principle
+La capa de presentación (Streamlit) **no depende** directamente de SQLAlchemy ni de los modelos. Se comunica con la API REST mediante HTTP (módulo `requests`), de forma que la implementación concreta de la persistencia podría sustituirse (por ejemplo, cambiar SQLite por PostgreSQL) sin tocar la UI.
 
 ## Características técnicas implementadas
 - Excepciones personalizadas (`errores.py`)
