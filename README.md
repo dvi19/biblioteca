@@ -11,11 +11,12 @@ Sistema completo de gestión de bibliotecas (catálogo, usuarios y préstamos) d
 
 ## Tecnologías
 - Python 3.10+
-- FastAPI con APIRouter (libros, usuarios, préstamos)
+- FastAPI con `APIRouter` (libros, usuarios, préstamos)
 - SQLAlchemy 2.x sobre SQLite
 - Streamlit (multipágina)
-- Pytest + pytest-cov
+- Pytest + pytest-cov + `unittest.mock`
 - Docker / Docker Compose
+- GitHub Actions (CI/CD)
 
 ## Cómo ejecutar
 
@@ -23,7 +24,7 @@ Sistema completo de gestión de bibliotecas (catálogo, usuarios y préstamos) d
 ```bash
 docker compose up --build
 ```
-- API: http://localhost:8000 (docs en `/docs`)
+- API: http://localhost:8000 (docs interactivas en `/docs`)
 - UI: http://localhost:8501
 
 ### En local (sin Docker)
@@ -46,11 +47,53 @@ pytest --cov=. --cov-report=term-missing
 ```
 
 ## Arquitectura
-- `fastapi/` — API REST con routers separados (`routers/libros.py`, `usuarios.py`, `prestamos.py`)
-- `fastapi/data/` — Modelos SQLAlchemy y configuración de la BD
-- `fastapi/utils/` — Decoradores, context managers y generadores
-- `fastapi/config/` — Configuración de logging
-- `streamlit/` — UI multipágina que consume la API
+biblioteca/
+├── fastapi/
+│   ├── server.py             # Punto de entrada de la API + montaje de routers
+│   ├── main.py               # Lógica de negocio
+│   ├── errores.py            # Excepciones personalizadas
+│   ├── conftest.py           # Configuración de pytest
+│   ├── routers/              # Endpoints separados por entidad
+│   │   ├── libros.py
+│   │   ├── usuarios.py
+│   │   └── prestamos.py
+│   ├── data/                 # Modelos SQLAlchemy y conexión BD
+│   │   ├── database.py
+│   │   └── models.py
+│   ├── utils/                # Decoradores, context managers, generadores
+│   ├── config/               # Configuración de logging
+│   └── test_biblioteca*.py   # Suites de tests (integración + mocks)
+├── streamlit/                # Interfaz multipágina
+├── .github/workflows/        # CI/CD
+├── docker-compose.yml
+├── DAILYS.md
+└── README.md
+
+## Niveles de evaluación cumplidos
+
+Marcamos a continuación los requisitos cubiertos según el sistema incremental del enunciado.
+
+### ✅ Aprobado — Funcionamiento básico
+- Listado de libros, alta de usuarios y gestión de préstamos.
+- Commits semánticos en Git.
+- Tests unitarios con **Mocks** (`unittest.mock`) para aislar dependencias de la base de datos (`fastapi/test_biblioteca_mocks.py`).
+- Código limpio y organizado por responsabilidades.
+
+### ✅ Notable — Robustez y calidad
+- **Excepciones personalizadas** tipadas (`errores.py`): `CampoFaltanteError`, `LibroDuplicadoError`, `LibroNoEncontradoError`, `EmailDuplicadoError`, `LibroYaDisponibleError`, `IdNoNumericoError`, `HistorialVacioError`, `FormatoFechaError`.
+- **Logging multinivel** (`config/logging_config.py`) con `INFO`, `WARNING`, `ERROR`.
+- **APIRouter** para separar endpoints (`routers/libros.py`, `usuarios.py`, `prestamos.py`).
+- **Caché en Streamlit** mediante `@st.cache_data` para reducir llamadas a la API.
+- **CI/CD con GitHub Actions** que ejecuta los tests en cada push (`.github/workflows/tests.yml`).
+
+### ✅ Sobresaliente — Ingeniería del Software
+- **Decoradores propios** (`utils/decoradores.py`):
+  - `@log_execution_time`: mide y registra el tiempo de ejecución.
+  - `@validar_campos`: valida que los campos obligatorios no estén vacíos.
+  - `@retry`: reintentos automáticos ante fallos transitorios.
+- **Properties** (`data/models.py`): `estado_legible`, `info_completa`, `dias_transcurridos`, `descripcion_estado`, `email_dominio`, `iniciales`.
+- **Context managers** (`utils/context_managers.py`): `db_session`, `db_transaction`, `measure_time`.
+- **Generadores** (`utils/generadores.py`) para procesar grandes volúmenes de datos con `yield`.
 
 ## Cumplimiento de SOLID
 
@@ -76,14 +119,20 @@ La API expone interfaces específicas por entidad: el cliente de libros solo con
 ### DIP — Dependency Inversion Principle
 La capa de presentación (Streamlit) **no depende** directamente de SQLAlchemy ni de los modelos. Se comunica con la API REST mediante HTTP (módulo `requests`), de forma que la implementación concreta de la persistencia podría sustituirse (por ejemplo, cambiar SQLite por PostgreSQL) sin tocar la UI.
 
-## Características técnicas implementadas
-- Excepciones personalizadas (`errores.py`)
-- Logging multinivel (`config/logging_config.py`)
-- Decoradores propios (`@log_execution_time`, `@validar_campos`, `@retry`)
-- Properties en los modelos (`estado_legible`, `dias_transcurridos`, etc.)
-- Context managers (`db_session`, `db_transaction`, `measure_time`)
-- Generadores (`utils/generadores.py`)
-- Tests con Pytest
+## Suite de tests
+
+El proyecto incluye dos suites complementarias:
+
+- **`test_biblioteca.py`** — Tests de integración contra la BD real (SQLite). Verifican el comportamiento end-to-end de las funciones de negocio.
+- **`test_biblioteca_mocks.py`** — Tests unitarios con `unittest.mock` que aíslan la lógica de la base de datos. Mockean `SessionLocal` para validar reglas de negocio sin depender de la persistencia.
+
+Cobertura ejecutable con `pytest --cov=. --cov-report=term-missing`.
 
 ## Metodología
-Trabajo en 3 sprints siguiendo XP: pair programming (commits con `co-authored-by`), TDD y refactoring continuo. Stand-ups recogidos en `DAILYS.md`.
+
+Trabajo en **3 sprints** siguiendo eXtreme Programming (XP):
+- **Pair programming** evidenciado en commits con `co-authored-by`.
+- **TDD**: los tests guiaron el desarrollo de las nuevas funcionalidades.
+- **Refactoring continuo**: el esqueleto inicial leía de un CSV en cada petición; refactorizamos para usar SQLAlchemy + APIRouter.
+- **Integración Continua**: GitHub Actions ejecuta los tests automáticamente en cada `push` y `pull_request`.
+- **Stand-ups diarios** registrados en [`DAILYS.md`](DAILYS.md).
