@@ -4,6 +4,7 @@ import time
 import functools
 from typing import Callable, Any
 from config.logging_config import logger
+from errores import CampoFaltanteError
 
 
 def log_execution_time(func: Callable) -> Callable:
@@ -51,7 +52,7 @@ def validar_campos(*campos_requeridos):
                 if valor is None or (isinstance(valor, str) and valor.strip() == ""):
                     error_msg = f"El campo '{campo}' es obligatorio y no puede estar vacío"
                     logger.warning(f"⚠️  Validación fallida en '{func.__name__}': {error_msg}")
-                    raise ValueError(error_msg)
+                    raise CampoFaltanteError(f"El campo '{valor}' es obligatorio y no puede estar vacío")
 
             logger.info(f"✅ Validación de campos exitosa para '{func.__name__}'")
             return func(*args, **kwargs)
