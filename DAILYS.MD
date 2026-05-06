@@ -98,3 +98,12 @@ Registro de reuniones diarias del equipo siguiendo metodología eXtreme Programm
   - Reescribir el `README.md` con la documentación completa de los principios SOLID y los niveles de evaluación cubiertos (Aprobado, Notable, Sobresaliente).
   - Corregir el formato del árbol de arquitectura en el `README.md`.
 - **Bloqueos:** Ninguno. Entrega lista, CI en verde.
+
+
+### 06/05/2026 — Sesión de cierre y limpieza
+- **Asistentes:** Álvaro, Daniel Gradillas, Jorge
+- **Hecho ayer:** Cierre de la entrega final con CI en verde y 26 tests pasando.
+- **Para hoy:** Revisión general y últimos detalles:
+  - Eliminar la carpeta `logs/` del repositorio y añadir `logs/` y `*.log` al `.gitignore` para evitar que se vuelvan a colar.
+  - Verificación final del estado del proyecto.
+- **Bloqueos:** Ninguno. Proyecto cerrado.
