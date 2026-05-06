@@ -220,50 +220,52 @@ def test_buscar_libro_por_coincidencia():
     assert any("Orwell" in libro.autor for libro in resultados)
 
 
-    def test_obtener_eventos_calendario_activo():
-        """HU-08: Eventos activos se muestran en rojo"""
-        from main import obtener_eventos_calendario, registrar_prestamo
-        from data.database import SessionLocal
-        from data.models import Prestamo
+def test_obtener_eventos_calendario_activo():
+    """HU-08: Eventos activos se muestran en rojo"""
+    from main import obtener_eventos_calendario
+    from data.models import Prestamo, Libro
 
-        db = SessionLocal()
-        db.query(Prestamo).filter_by(usuario="CalendarioTest1").delete()
-        db.commit()
-        db.close()
+    db = SessionLocal()
+    db.query(Prestamo).filter_by(usuario="CalendarioTest1").delete()
+    db.query(Libro).filter_by(id=200).delete()
+    db.commit()
+    db.close()
 
-        registrar_prestamo(id_libro=1, usuario="CalendarioTest1", fecha_texto="2024-01-20")
+    registrar_libro(200, "Libro Calendario 1", "Autor", "Género")
+    registrar_prestamo(id_libro=200, usuario="CalendarioTest1", fecha_texto="2024-01-20")
 
-        eventos = obtener_eventos_calendario("CalendarioTest1")
+    eventos = obtener_eventos_calendario("CalendarioTest1")
 
-        assert len(eventos) > 0
-        assert eventos[0]["start"] == "2024-01-20"
-        assert eventos[0]["backgroundColor"] == "#ff4b4b"  # Rojo (activo)
+    assert len(eventos) > 0
+    assert eventos[0]["start"] == "2024-01-20"
+    assert eventos[0]["backgroundColor"] == "#ff4b4b"  # Rojo (activo)
 
-    def test_obtener_eventos_calendario_devuelto():
-        """HU-08: Eventos devueltos se muestran en verde"""
-        from main import obtener_eventos_calendario, registrar_prestamo, devolver_libro
-        from data.database import SessionLocal
-        from data.models import Prestamo
 
-        db = SessionLocal()
-        db.query(Prestamo).filter_by(usuario="CalendarioTest2").delete()
-        db.commit()
-        db.close()
+def test_obtener_eventos_calendario_devuelto():
+    """HU-08: Eventos devueltos se muestran en verde"""
+    from main import obtener_eventos_calendario
+    from data.models import Prestamo, Libro
 
-        # Registramos y devolvemos
-        registrar_prestamo(id_libro=1, usuario="CalendarioTest2", fecha_texto="2024-01-20")
-        devolver_libro(1)
+    db = SessionLocal()
+    db.query(Prestamo).filter_by(usuario="CalendarioTest2").delete()
+    db.query(Libro).filter_by(id=201).delete()
+    db.commit()
+    db.close()
 
-        eventos = obtener_eventos_calendario("CalendarioTest2")
+    registrar_libro(201, "Libro Calendario 2", "Autor", "Género")
+    registrar_prestamo(id_libro=201, usuario="CalendarioTest2", fecha_texto="2024-01-20")
+    devolver_libro(201)
 
-        # Verificamos que hay eventos devueltos en verde
-        eventos_devueltos = [e for e in eventos if e["backgroundColor"] == "#28a745"]
-        assert len(eventos_devueltos) > 0
+    eventos = obtener_eventos_calendario("CalendarioTest2")
 
-    def test_obtener_eventos_calendario_sin_prestamos():
-        """HU-08: Usuario sin préstamos devuelve lista vacía"""
-        from main import obtener_eventos_calendario
+    eventos_devueltos = [e for e in eventos if e["backgroundColor"] == "#28a745"]
+    assert len(eventos_devueltos) > 0
 
-        eventos = obtener_eventos_calendario("UsuarioSinPrestamos999")
 
-        assert eventos == []
+def test_obtener_eventos_calendario_sin_prestamos():
+    """HU-08: Usuario sin préstamos devuelve lista vacía"""
+    from main import obtener_eventos_calendario
+
+    eventos = obtener_eventos_calendario("UsuarioSinPrestamos999")
+
+    assert eventos == []

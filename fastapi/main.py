@@ -134,6 +134,16 @@ def devolver_libro(id_libro):
 
         # PROCESO DE DEVOLUCIÓN
         libro.disponible = True
+
+        # Actualizar el préstamo activo asociado
+        prestamo_activo = db.query(Prestamo).filter(
+            Prestamo.id_libro == id_libro,
+            Prestamo.activo == True
+        ).first()
+        if prestamo_activo:
+            prestamo_activo.activo = False
+            prestamo_activo.fecha_devolucion = datetime.now().strftime("%Y-%m-%d")
+
         db.commit()
         db.refresh(libro)
 

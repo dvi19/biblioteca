@@ -384,3 +384,373 @@
 2026-05-06 11:40:40 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 100: '1984'
 2026-05-06 11:40:40 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 100, Título: '1984'
 2026-05-06 11:40:40 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0201 segundos
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 11:59:58 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 10: 'The Hobbit'
+2026-05-06 11:59:58 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 10, Título: 'The Hobbit'
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0367 segundos
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 11:59:58 - biblioteca - WARNING - wrapper - ⚠️  Validación fallida en 'registrar_libro': El campo 'titulo' es obligatorio y no puede estar vacío
+2026-05-06 11:59:58 - biblioteca - ERROR - wrapper - ❌ 'registrar_libro' falló después de 0.0005 segundos: El campo '' es obligatorio y no puede estar vacío
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 11:59:58 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID diez: 'Título'
+2026-05-06 11:59:58 - biblioteca - ERROR - registrar_libro - ID no numérico recibido: diez
+2026-05-06 11:59:58 - biblioteca - ERROR - wrapper - ❌ 'registrar_libro' falló después de 0.0012 segundos: El ID debe ser un número entero.
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 11:59:58 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 15: 'Libro Original'
+2026-05-06 11:59:58 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 15, Título: 'Libro Original'
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0178 segundos
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 11:59:58 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 15: 'Libro Duplicado'
+2026-05-06 11:59:58 - biblioteca - WARNING - registrar_libro - Intento de registrar libro duplicado - ID: 15, existente: 'Libro Original'
+2026-05-06 11:59:58 - biblioteca - ERROR - registrar_libro - Error al registrar libro ID 15: Ya existe un libro con el ID 15: 'Libro Original'
+2026-05-06 11:59:58 - biblioteca - ERROR - wrapper - ❌ 'registrar_libro' falló después de 0.0046 segundos: Ya existe un libro con el ID 15: 'Libro Original'
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 11:59:58 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 20: '1984'
+2026-05-06 11:59:58 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 20, Título: '1984'
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0648 segundos
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'consultar_catalogo'
+2026-05-06 11:59:58 - biblioteca - INFO - wrapper - ✅ 'consultar_catalogo' completada en 0.0020 segundos
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_usuario'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_usuario - Intentando registrar usuario: 'Juan Pérez' (test@email.com)
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_usuario - ✅ Usuario registrado exitosamente: 'Juan Pérez' (test@email.com)
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ 'registrar_usuario' completada en 0.0347 segundos
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_usuario'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_usuario - Intentando registrar usuario: 'Usuario 1' (duplicado@email.com)
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_usuario - ✅ Usuario registrado exitosamente: 'Usuario 1' (duplicado@email.com)
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ 'registrar_usuario' completada en 0.0197 segundos
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_usuario'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_usuario - Intentando registrar usuario: 'Usuario 2' (duplicado@email.com)
+2026-05-06 11:59:59 - biblioteca - WARNING - registrar_usuario - Intento de registro con email duplicado: duplicado@email.com
+2026-05-06 11:59:59 - biblioteca - ERROR - registrar_usuario - Error al registrar usuario 'Usuario 2': El email 'duplicado@email.com' ya está registrado.
+2026-05-06 11:59:59 - biblioteca - ERROR - wrapper - ❌ 'registrar_usuario' falló después de 0.0016 segundos: El email 'duplicado@email.com' ya está registrado.
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 11:59:59 - biblioteca - WARNING - wrapper - ⚠️  Validación fallida en 'registrar_usuario': El campo 'nombre' es obligatorio y no puede estar vacío
+2026-05-06 11:59:59 - biblioteca - ERROR - wrapper - ❌ 'registrar_usuario' falló después de 0.0004 segundos: El campo '' es obligatorio y no puede estar vacío
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 11:59:59 - biblioteca - WARNING - wrapper - ⚠️  Validación fallida en 'registrar_usuario': El campo 'email' es obligatorio y no puede estar vacío
+2026-05-06 11:59:59 - biblioteca - ERROR - wrapper - ❌ 'registrar_usuario' falló después de 0.0003 segundos: El campo '' es obligatorio y no puede estar vacío
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_usuario'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_usuario - Intentando registrar usuario: 'Usuario Test' (listar@test.com)
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_usuario - ✅ Usuario registrado exitosamente: 'Usuario Test' (listar@test.com)
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ 'registrar_usuario' completada en 0.0186 segundos
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 50: 'Libro a Borrar'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 50, Título: 'Libro a Borrar'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0180 segundos
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'consultar_catalogo'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ 'consultar_catalogo' completada en 0.0008 segundos
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 30: 'El Quijote'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 30, Título: 'El Quijote'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0214 segundos
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 60: 'Libro Prestado'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 60, Título: 'Libro Prestado'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0231 segundos
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'devolver_libro'
+2026-05-06 11:59:59 - biblioteca - INFO - devolver_libro - Intentando devolver libro ID: 60
+2026-05-06 11:59:59 - biblioteca - INFO - devolver_libro - ✅ Libro devuelto exitosamente - ID: 60, Título: 'Libro Prestado'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ 'devolver_libro' completada en 0.0188 segundos
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 70: 'Libro en Estantería'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 70, Título: 'Libro en Estantería'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0183 segundos
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'devolver_libro'
+2026-05-06 11:59:59 - biblioteca - INFO - devolver_libro - Intentando devolver libro ID: 70
+2026-05-06 11:59:59 - biblioteca - WARNING - devolver_libro - Intento de devolver libro ya disponible - ID: 70
+2026-05-06 11:59:59 - biblioteca - ERROR - devolver_libro - Error al devolver libro ID 70: El libro 70 ya está disponible.
+2026-05-06 11:59:59 - biblioteca - ERROR - wrapper - ❌ 'devolver_libro' falló después de 0.0019 segundos: El libro 70 ya está disponible.
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_prestamo'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 10, Usuario: 'Guti'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_prestamo - ✅ Préstamo registrado - Libro: 'The Hobbit', Usuario: 'Guti'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ 'registrar_prestamo' completada en 0.0240 segundos
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 100: '1984'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 100, Título: '1984'
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0289 segundos
+2026-05-06 11:59:59 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_prestamo'
+2026-05-06 11:59:59 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 1, Usuario: 'CalendarioTest1'
+2026-05-06 11:59:59 - biblioteca - ERROR - registrar_prestamo - Intento de préstamo de libro inexistente - ID: 1
+2026-05-06 11:59:59 - biblioteca - ERROR - registrar_prestamo - Error al registrar préstamo - Libro ID: 1, Usuario: 'CalendarioTest1' - No existe el libro con ID 1
+2026-05-06 11:59:59 - biblioteca - WARNING - wrapper - ⚠️  'registrar_prestamo' falló (intento 1/3): No existe el libro con ID 1
+2026-05-06 12:00:00 - biblioteca - WARNING - wrapper - 🔄 Reintentando 'registrar_prestamo' (intento 2/3)
+2026-05-06 12:00:00 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 1, Usuario: 'CalendarioTest1'
+2026-05-06 12:00:00 - biblioteca - ERROR - registrar_prestamo - Intento de préstamo de libro inexistente - ID: 1
+2026-05-06 12:00:00 - biblioteca - ERROR - registrar_prestamo - Error al registrar préstamo - Libro ID: 1, Usuario: 'CalendarioTest1' - No existe el libro con ID 1
+2026-05-06 12:00:00 - biblioteca - WARNING - wrapper - ⚠️  'registrar_prestamo' falló (intento 2/3): No existe el libro con ID 1
+2026-05-06 12:00:01 - biblioteca - WARNING - wrapper - 🔄 Reintentando 'registrar_prestamo' (intento 3/3)
+2026-05-06 12:00:01 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 1, Usuario: 'CalendarioTest1'
+2026-05-06 12:00:01 - biblioteca - ERROR - registrar_prestamo - Intento de préstamo de libro inexistente - ID: 1
+2026-05-06 12:00:01 - biblioteca - ERROR - registrar_prestamo - Error al registrar préstamo - Libro ID: 1, Usuario: 'CalendarioTest1' - No existe el libro con ID 1
+2026-05-06 12:00:01 - biblioteca - ERROR - wrapper - ❌ 'registrar_prestamo' falló después de 3 intentos: No existe el libro con ID 1
+2026-05-06 12:00:01 - biblioteca - ERROR - wrapper - ❌ 'registrar_prestamo' falló después de 2.0062 segundos: No existe el libro con ID 1
+2026-05-06 12:00:01 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_prestamo'
+2026-05-06 12:00:01 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 1, Usuario: 'CalendarioTest2'
+2026-05-06 12:00:01 - biblioteca - ERROR - registrar_prestamo - Intento de préstamo de libro inexistente - ID: 1
+2026-05-06 12:00:01 - biblioteca - ERROR - registrar_prestamo - Error al registrar préstamo - Libro ID: 1, Usuario: 'CalendarioTest2' - No existe el libro con ID 1
+2026-05-06 12:00:01 - biblioteca - WARNING - wrapper - ⚠️  'registrar_prestamo' falló (intento 1/3): No existe el libro con ID 1
+2026-05-06 12:00:02 - biblioteca - WARNING - wrapper - 🔄 Reintentando 'registrar_prestamo' (intento 2/3)
+2026-05-06 12:00:02 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 1, Usuario: 'CalendarioTest2'
+2026-05-06 12:00:02 - biblioteca - ERROR - registrar_prestamo - Intento de préstamo de libro inexistente - ID: 1
+2026-05-06 12:00:02 - biblioteca - ERROR - registrar_prestamo - Error al registrar préstamo - Libro ID: 1, Usuario: 'CalendarioTest2' - No existe el libro con ID 1
+2026-05-06 12:00:02 - biblioteca - WARNING - wrapper - ⚠️  'registrar_prestamo' falló (intento 2/3): No existe el libro con ID 1
+2026-05-06 12:00:03 - biblioteca - WARNING - wrapper - 🔄 Reintentando 'registrar_prestamo' (intento 3/3)
+2026-05-06 12:00:03 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 1, Usuario: 'CalendarioTest2'
+2026-05-06 12:00:03 - biblioteca - ERROR - registrar_prestamo - Intento de préstamo de libro inexistente - ID: 1
+2026-05-06 12:00:03 - biblioteca - ERROR - registrar_prestamo - Error al registrar préstamo - Libro ID: 1, Usuario: 'CalendarioTest2' - No existe el libro con ID 1
+2026-05-06 12:00:03 - biblioteca - ERROR - wrapper - ❌ 'registrar_prestamo' falló después de 3 intentos: No existe el libro con ID 1
+2026-05-06 12:00:03 - biblioteca - ERROR - wrapper - ❌ 'registrar_prestamo' falló después de 2.0063 segundos: No existe el libro con ID 1
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 10: 'The Hobbit'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 10, Título: 'The Hobbit'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0343 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - WARNING - wrapper - ⚠️  Validación fallida en 'registrar_libro': El campo 'titulo' es obligatorio y no puede estar vacío
+2026-05-06 12:04:48 - biblioteca - ERROR - wrapper - ❌ 'registrar_libro' falló después de 0.0005 segundos: El campo '' es obligatorio y no puede estar vacío
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID diez: 'Título'
+2026-05-06 12:04:48 - biblioteca - ERROR - registrar_libro - ID no numérico recibido: diez
+2026-05-06 12:04:48 - biblioteca - ERROR - wrapper - ❌ 'registrar_libro' falló después de 0.0006 segundos: El ID debe ser un número entero.
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 15: 'Libro Original'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 15, Título: 'Libro Original'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0202 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 15: 'Libro Duplicado'
+2026-05-06 12:04:48 - biblioteca - WARNING - registrar_libro - Intento de registrar libro duplicado - ID: 15, existente: 'Libro Original'
+2026-05-06 12:04:48 - biblioteca - ERROR - registrar_libro - Error al registrar libro ID 15: Ya existe un libro con el ID 15: 'Libro Original'
+2026-05-06 12:04:48 - biblioteca - ERROR - wrapper - ❌ 'registrar_libro' falló después de 0.0017 segundos: Ya existe un libro con el ID 15: 'Libro Original'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 20: '1984'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 20, Título: '1984'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0208 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'consultar_catalogo'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'consultar_catalogo' completada en 0.0015 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_usuario'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_usuario - Intentando registrar usuario: 'Juan Pérez' (test@email.com)
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_usuario - ✅ Usuario registrado exitosamente: 'Juan Pérez' (test@email.com)
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'registrar_usuario' completada en 0.0210 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_usuario'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_usuario - Intentando registrar usuario: 'Usuario 1' (duplicado@email.com)
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_usuario - ✅ Usuario registrado exitosamente: 'Usuario 1' (duplicado@email.com)
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'registrar_usuario' completada en 0.0197 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_usuario'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_usuario - Intentando registrar usuario: 'Usuario 2' (duplicado@email.com)
+2026-05-06 12:04:48 - biblioteca - WARNING - registrar_usuario - Intento de registro con email duplicado: duplicado@email.com
+2026-05-06 12:04:48 - biblioteca - ERROR - registrar_usuario - Error al registrar usuario 'Usuario 2': El email 'duplicado@email.com' ya está registrado.
+2026-05-06 12:04:48 - biblioteca - ERROR - wrapper - ❌ 'registrar_usuario' falló después de 0.0021 segundos: El email 'duplicado@email.com' ya está registrado.
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 12:04:48 - biblioteca - WARNING - wrapper - ⚠️  Validación fallida en 'registrar_usuario': El campo 'nombre' es obligatorio y no puede estar vacío
+2026-05-06 12:04:48 - biblioteca - ERROR - wrapper - ❌ 'registrar_usuario' falló después de 0.0008 segundos: El campo '' es obligatorio y no puede estar vacío
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 12:04:48 - biblioteca - WARNING - wrapper - ⚠️  Validación fallida en 'registrar_usuario': El campo 'email' es obligatorio y no puede estar vacío
+2026-05-06 12:04:48 - biblioteca - ERROR - wrapper - ❌ 'registrar_usuario' falló después de 0.0006 segundos: El campo '' es obligatorio y no puede estar vacío
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_usuario'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_usuario - Intentando registrar usuario: 'Usuario Test' (listar@test.com)
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_usuario - ✅ Usuario registrado exitosamente: 'Usuario Test' (listar@test.com)
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'registrar_usuario' completada en 0.0527 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 50: 'Libro a Borrar'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 50, Título: 'Libro a Borrar'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0434 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'consultar_catalogo'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'consultar_catalogo' completada en 0.0008 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 30: 'El Quijote'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 30, Título: 'El Quijote'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0233 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 60: 'Libro Prestado'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 60, Título: 'Libro Prestado'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0190 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'devolver_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - devolver_libro - Intentando devolver libro ID: 60
+2026-05-06 12:04:48 - biblioteca - INFO - devolver_libro - ✅ Libro devuelto exitosamente - ID: 60, Título: 'Libro Prestado'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'devolver_libro' completada en 0.0160 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 70: 'Libro en Estantería'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 70, Título: 'Libro en Estantería'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0173 segundos
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'devolver_libro'
+2026-05-06 12:04:48 - biblioteca - INFO - devolver_libro - Intentando devolver libro ID: 70
+2026-05-06 12:04:48 - biblioteca - WARNING - devolver_libro - Intento de devolver libro ya disponible - ID: 70
+2026-05-06 12:04:48 - biblioteca - ERROR - devolver_libro - Error al devolver libro ID 70: El libro 70 ya está disponible.
+2026-05-06 12:04:48 - biblioteca - ERROR - wrapper - ❌ 'devolver_libro' falló después de 0.0013 segundos: El libro 70 ya está disponible.
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_prestamo'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 10, Usuario: 'Guti'
+2026-05-06 12:04:48 - biblioteca - INFO - registrar_prestamo - ✅ Préstamo registrado - Libro: 'The Hobbit', Usuario: 'Guti'
+2026-05-06 12:04:48 - biblioteca - INFO - wrapper - ✅ 'registrar_prestamo' completada en 0.0237 segundos
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:04:49 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 100: '1984'
+2026-05-06 12:04:49 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 100, Título: '1984'
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0211 segundos
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:04:49 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 200: 'Libro Calendario 1'
+2026-05-06 12:04:49 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 200, Título: 'Libro Calendario 1'
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0191 segundos
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_prestamo'
+2026-05-06 12:04:49 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 200, Usuario: 'CalendarioTest1'
+2026-05-06 12:04:49 - biblioteca - INFO - registrar_prestamo - ✅ Préstamo registrado - Libro: 'Libro Calendario 1', Usuario: 'CalendarioTest1'
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ✅ 'registrar_prestamo' completada en 0.0198 segundos
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:04:49 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 201: 'Libro Calendario 2'
+2026-05-06 12:04:49 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 201, Título: 'Libro Calendario 2'
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0248 segundos
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_prestamo'
+2026-05-06 12:04:49 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 201, Usuario: 'CalendarioTest2'
+2026-05-06 12:04:49 - biblioteca - INFO - registrar_prestamo - ✅ Préstamo registrado - Libro: 'Libro Calendario 2', Usuario: 'CalendarioTest2'
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ✅ 'registrar_prestamo' completada en 0.0210 segundos
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'devolver_libro'
+2026-05-06 12:04:49 - biblioteca - INFO - devolver_libro - Intentando devolver libro ID: 201
+2026-05-06 12:04:49 - biblioteca - INFO - devolver_libro - ✅ Libro devuelto exitosamente - ID: 201, Título: 'Libro Calendario 2'
+2026-05-06 12:04:49 - biblioteca - INFO - wrapper - ✅ 'devolver_libro' completada en 0.0191 segundos
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:07:15 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 10: 'The Hobbit'
+2026-05-06 12:07:15 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 10, Título: 'The Hobbit'
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0249 segundos
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:15 - biblioteca - WARNING - wrapper - ⚠️  Validación fallida en 'registrar_libro': El campo 'titulo' es obligatorio y no puede estar vacío
+2026-05-06 12:07:15 - biblioteca - ERROR - wrapper - ❌ 'registrar_libro' falló después de 0.0005 segundos: El campo '' es obligatorio y no puede estar vacío
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:07:15 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID diez: 'Título'
+2026-05-06 12:07:15 - biblioteca - ERROR - registrar_libro - ID no numérico recibido: diez
+2026-05-06 12:07:15 - biblioteca - ERROR - wrapper - ❌ 'registrar_libro' falló después de 0.0006 segundos: El ID debe ser un número entero.
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:07:15 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 15: 'Libro Original'
+2026-05-06 12:07:15 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 15, Título: 'Libro Original'
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0354 segundos
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:07:15 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 15: 'Libro Duplicado'
+2026-05-06 12:07:15 - biblioteca - WARNING - registrar_libro - Intento de registrar libro duplicado - ID: 15, existente: 'Libro Original'
+2026-05-06 12:07:15 - biblioteca - ERROR - registrar_libro - Error al registrar libro ID 15: Ya existe un libro con el ID 15: 'Libro Original'
+2026-05-06 12:07:15 - biblioteca - ERROR - wrapper - ❌ 'registrar_libro' falló después de 0.0018 segundos: Ya existe un libro con el ID 15: 'Libro Original'
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:07:15 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 20: '1984'
+2026-05-06 12:07:15 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 20, Título: '1984'
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0208 segundos
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'consultar_catalogo'
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ✅ 'consultar_catalogo' completada en 0.0019 segundos
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_usuario'
+2026-05-06 12:07:15 - biblioteca - INFO - registrar_usuario - Intentando registrar usuario: 'Juan Pérez' (test@email.com)
+2026-05-06 12:07:15 - biblioteca - INFO - registrar_usuario - ✅ Usuario registrado exitosamente: 'Juan Pérez' (test@email.com)
+2026-05-06 12:07:15 - biblioteca - INFO - wrapper - ✅ 'registrar_usuario' completada en 0.0237 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_usuario'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_usuario - Intentando registrar usuario: 'Usuario 1' (duplicado@email.com)
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_usuario - ✅ Usuario registrado exitosamente: 'Usuario 1' (duplicado@email.com)
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'registrar_usuario' completada en 0.0246 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_usuario'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_usuario - Intentando registrar usuario: 'Usuario 2' (duplicado@email.com)
+2026-05-06 12:07:16 - biblioteca - WARNING - registrar_usuario - Intento de registro con email duplicado: duplicado@email.com
+2026-05-06 12:07:16 - biblioteca - ERROR - registrar_usuario - Error al registrar usuario 'Usuario 2': El email 'duplicado@email.com' ya está registrado.
+2026-05-06 12:07:16 - biblioteca - ERROR - wrapper - ❌ 'registrar_usuario' falló después de 0.0039 segundos: El email 'duplicado@email.com' ya está registrado.
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 12:07:16 - biblioteca - WARNING - wrapper - ⚠️  Validación fallida en 'registrar_usuario': El campo 'nombre' es obligatorio y no puede estar vacío
+2026-05-06 12:07:16 - biblioteca - ERROR - wrapper - ❌ 'registrar_usuario' falló después de 0.0017 segundos: El campo '' es obligatorio y no puede estar vacío
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 12:07:16 - biblioteca - WARNING - wrapper - ⚠️  Validación fallida en 'registrar_usuario': El campo 'email' es obligatorio y no puede estar vacío
+2026-05-06 12:07:16 - biblioteca - ERROR - wrapper - ❌ 'registrar_usuario' falló después de 0.0010 segundos: El campo '' es obligatorio y no puede estar vacío
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_usuario'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_usuario'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_usuario - Intentando registrar usuario: 'Usuario Test' (listar@test.com)
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_usuario - ✅ Usuario registrado exitosamente: 'Usuario Test' (listar@test.com)
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'registrar_usuario' completada en 0.0220 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 50: 'Libro a Borrar'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 50, Título: 'Libro a Borrar'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0236 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'consultar_catalogo'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'consultar_catalogo' completada en 0.0010 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 30: 'El Quijote'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 30, Título: 'El Quijote'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0225 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 60: 'Libro Prestado'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 60, Título: 'Libro Prestado'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0170 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'devolver_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - devolver_libro - Intentando devolver libro ID: 60
+2026-05-06 12:07:16 - biblioteca - INFO - devolver_libro - ✅ Libro devuelto exitosamente - ID: 60, Título: 'Libro Prestado'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'devolver_libro' completada en 0.0172 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 70: 'Libro en Estantería'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 70, Título: 'Libro en Estantería'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0193 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'devolver_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - devolver_libro - Intentando devolver libro ID: 70
+2026-05-06 12:07:16 - biblioteca - WARNING - devolver_libro - Intento de devolver libro ya disponible - ID: 70
+2026-05-06 12:07:16 - biblioteca - ERROR - devolver_libro - Error al devolver libro ID 70: El libro 70 ya está disponible.
+2026-05-06 12:07:16 - biblioteca - ERROR - wrapper - ❌ 'devolver_libro' falló después de 0.0015 segundos: El libro 70 ya está disponible.
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_prestamo'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 10, Usuario: 'Guti'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_prestamo - ✅ Préstamo registrado - Libro: 'The Hobbit', Usuario: 'Guti'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'registrar_prestamo' completada en 0.0201 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 100: '1984'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 100, Título: '1984'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0207 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 200: 'Libro Calendario 1'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 200, Título: 'Libro Calendario 1'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0202 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_prestamo'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 200, Usuario: 'CalendarioTest1'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_prestamo - ✅ Préstamo registrado - Libro: 'Libro Calendario 1', Usuario: 'CalendarioTest1'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'registrar_prestamo' completada en 0.0204 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ Validación de campos exitosa para 'registrar_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - Intentando registrar libro ID 201: 'Libro Calendario 2'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_libro - ✅ Libro registrado exitosamente - ID: 201, Título: 'Libro Calendario 2'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'registrar_libro' completada en 0.0193 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'registrar_prestamo'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_prestamo - Intentando registrar préstamo - Libro ID: 201, Usuario: 'CalendarioTest2'
+2026-05-06 12:07:16 - biblioteca - INFO - registrar_prestamo - ✅ Préstamo registrado - Libro: 'Libro Calendario 2', Usuario: 'CalendarioTest2'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'registrar_prestamo' completada en 0.0188 segundos
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ⏱️  Iniciando ejecución de 'devolver_libro'
+2026-05-06 12:07:16 - biblioteca - INFO - devolver_libro - Intentando devolver libro ID: 201
+2026-05-06 12:07:16 - biblioteca - INFO - devolver_libro - ✅ Libro devuelto exitosamente - ID: 201, Título: 'Libro Calendario 2'
+2026-05-06 12:07:16 - biblioteca - INFO - wrapper - ✅ 'devolver_libro' completada en 0.0209 segundos
