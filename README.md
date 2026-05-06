@@ -47,6 +47,8 @@ pytest --cov=. --cov-report=term-missing
 ```
 
 ## Arquitectura
+
+```
 biblioteca/
 ├── fastapi/
 │   ├── server.py             # Punto de entrada de la API + montaje de routers
@@ -68,6 +70,7 @@ biblioteca/
 ├── docker-compose.yml
 ├── DAILYS.md
 └── README.md
+```
 
 ## Niveles de evaluación cumplidos
 
