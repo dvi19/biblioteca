@@ -27,3 +27,8 @@ htmlcov/
 # Logs
 *.log
 fastapi/logs/
+
+echo "" >> .gitignore
+echo "# Logs (raíz y subcarpetas)" >> .gitignore
+echo "logs/" >> .gitignore
+echo "*.log" >> .gitignore
